@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RWPM V1 - Research Workflow & Publication Manager</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<h1>Research Workflow & Publication Manager</h1>
+<h1>RWPM</h1>
+<h4> Developed by: Iraê César Brandão  - Date: Jun. 07/2026   -  Version: 1.2
+</header>
+
+<div class="container">
+<div class="card">
+
+    <button onclick="toggleTutorial()">
+        Show / Hide Tutorial
+    </button>
+
+    <div id="tutorial" class="tutorial">
+
+        <h2>RWPM V1 – Quick User Guide</h2>
+
+        <p>
+            Research Workflow & Publication Manager (RWPM) is an experimental academic tool designed to assist researchers in tracking manuscripts, submissions, editorial communications, similarity analyses, AI detection reports, and publication workflows.
+        </p>
+
+        <div class="guide-row">
+
+            <div class="guide-column">
+
+                <h3>Basic Commands</h3>
+
+                <table class="guide-table">
+
+                    <tr>
+                        <th>Action</th>
+                        <th>Description</th>
+                    </tr>
+
+                    <tr>
+                        <td>Add Project</td>
+                        <td>Create and save a new project.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Edit</td>
+                        <td>Modify existing project information.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Delete</td>
+                        <td>Remove a project permanently.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Export JSON</td>
+                        <td>Create a backup copy of all projects.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Import JSON</td>
+                        <td>Restore previously exported project data.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Theme</td>
+                        <td>Switch between light and dark mode.</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <div class="guide-column">
+
+                <h3>Project Fields</h3>
+
+                <table class="guide-table">
+
+                    <tr>
+                        <th>Field</th>
+                        <th>Purpose</th>
+                    </tr>
+
+                    <tr>
+                        <td>Control Number</td>
+                        <td>Internal project identification code.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Title</td>
+                        <td>Project or manuscript title.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Authors</td>
+                        <td>Authors and contributors.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Status</td>
+                        <td>Current publication stage.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Similarity Analysis</td>
+                        <td>Similarity and originality assessment records.</td>
+                    </tr>
+
+                    <tr>
+                        <td>AI Detection</td>
+                        <td>AI-generated content assessment records.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Word Count</td>
+                        <td>Current and target manuscript length.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Pending Items</td>
+                        <td>Tasks, revisions, and editorial requests.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Email Log</td>
+                        <td>Editorial correspondence history.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Timeline</td>
+                        <td>Chronological project record.</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <h3>Data Backup Recommendation</h3>
+
+        <p>
+            All project information is stored locally in your browser using Local Storage technology. Users are strongly advised to export and save JSON backup files regularly, especially before browser updates, device changes, system maintenance, or data-cleaning operations.
+        </p>
+
+        <p>
+            Failure to maintain backup copies may result in irreversible loss of project information.
+        </p>
+
+        <h3>Disclaimer</h3>
+
+        <p>
+            RWPM V1.2 is an experimental software prototype developed exclusively for academic, educational, and research-support purposes.
+        </p>
+
+        <p>
+            This software is provided "as is" without warranties of any kind, express or implied.
+        </p>
+
+        <p>
+            The developers, contributors, and distributors assume no responsibility or liability for data loss, corruption, software defects, inaccurate calculations, publication delays, missed deadlines, or any direct or indirect damages resulting from the use of this software.
+        </p>
+
+        <p>
+            Users remain solely responsible for maintaining backups, validating information, verifying analyses, and complying with institutional, editorial, legal, and ethical requirements.
+        </p>
+
+        <p>
+            By using RWPM V2, the user acknowledges and accepts these limitations and responsibilities.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<h2>Dashboard</h2>
+
+<div class="dashboard">
+
+<div class="dash-box">
+<h3>Total Projects</h3>
+<span id="totalProjects">0</span>
+</div>
+
+<div class="dash-box">
+<h3>Submitted</h3>
+<span id="submittedCount">0</span>
+</div>
+
+<div class="dash-box">
+<h3>Accepted</h3>
+<span id="acceptedCount">0</span>
+</div>
+
+<div class="dash-box">
+<h3>Published</h3>
+<span id="publishedCount">0</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Project Registration</h2>
+
+<div
+id="editingNotice"
+style="
+display:none;
+background:#fff3cd;
+padding:10px;
+margin-bottom:10px;
+border-radius:6px;
+border:1px solid #ffe69c;">
+
+Editing existing project
+
+</div>
+<b>Number:</b>
+<input id="controlNumber" placeholder="Project Code (Ex: PRJ-001; PRJ-002 ...)">
+<b>Title:</b>
+<input id="title" placeholder="Project Title">
+<b>Authors:</b>
+<input id="authors" placeholder="Authors">
+<b>Submitted Location:</b>
+<input id="location" placeholder="Submitted Location">
+<b>Journal/Conference:</b>
+<input id="submittedTo" placeholder="Journal / Conference">
+<b>DOI:</b>
+<input id="doi" placeholder="DOI">
+<b>Pub. Code: </b>
+<input id="publicationCode" placeholder="Publication Code">
+<b>URL: </b>
+<input id="publicationURL" placeholder="Publication URL">
+
+<b>Editorial Email:</b>
+<textarea
+id="lastEditorialEmail"
+placeholder="Last Editorial Email"></textarea>
+
+<select id="status">
+<option>Draft</option>
+<option>Submitted</option>
+<option>Under Review</option>
+<option>Complementation</option>
+<option>Accepted</option>
+<option>Published</option>
+</select>
+
+<h3>Similarity Analysis (%)</h3>
+<b>A-1:</b>
+<input id="similarity1" type="number">
+<b>A-2:</b>
+<input id="similarity2" type="number">
+<b>A-3:</b>
+<input id="similarity3" type="number">
+
+<h3>AI Detection (%)</h3>
+<b>D-1:</b>
+<input id="ai1" type="number">
+<b>D-2:</b>
+<input id="ai2" type="number">
+<b>D-3:</b>
+<input id="ai3" type="number">
+
+WORD:<br>
+<b>Limit:</b>
+<input
+id="wordLimit"
+type="number"
+placeholder="Word Limit">
+
+
+<b>Current:</b>
+<input
+id="currentWords"
+type="number"
+placeholder="Current Words">
+
+
+<b>Description of pending items:</b>
+<textarea
+id="pending"
+placeholder="Pending Items"></textarea>
+
+<b>Considerations for AI Analysis: </b>
+<textarea
+id="aiLog"
+placeholder="AI Analysis"></textarea>
+
+<b>Email log: Guidance: </b>
+<textarea
+id="emailLog"
+placeholder="Email Log"></textarea>
+
+<b>Timeline: </b>
+<textarea
+id="timeline"
+placeholder="Timeline"></textarea>
+
+<button
+id="saveButton"
+type="button"
+onclick="addProject()">
+Add Project
+</button>
+
+<button
+type="button"
+onclick="clearForm()">
+Clear Form
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Import / Export</h2>
+
+<button onclick="exportJSON()">
+Export JSON
+</button>
+
+<button onclick="toggleTheme()">
+Theme
+</button>
+
+<input
+type="file"
+onchange="importFile(event)">
+
+</div>
+
+<div class="card">
+
+<h2>Projects</h2>
+
+<table>
+
+<thead>
+<tr>
+    <th>#</th>
+    <th>Title</th>
+    <th>Status</th>
+    <th>Words</th>
+    <th>Difference</th>
+    <th>Lowest AI %</th>
+    <th>Action</th>
+</tr>
+</thead>
+
+<tbody id="projectTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
